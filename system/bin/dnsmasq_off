@@ -8,21 +8,23 @@
 #==========================================
 #
 #
+
    echo ""
-   echo "==========================================="
-   echo "==        DNSMASQ BINARY SWITCH          =="
-   echo "==                                       =="
-   echo "==       Exit_Only  @  XDA  2013         =="
-   echo "==========================================="
+   echo "============================================="
+   echo "==         DNSMASQ BINARY SWITCH           =="
+   echo "==                                         =="
+   echo "==        Exit_Only  @  XDA  2013          =="
+   echo "============================================="
 sleep 1
    echo ""
    echo "Turning dnsmasq binary switch off..."
 sleep 1
 busybox rm -f /data/local/dnsmasq_state
 busybox touch /data/local/dnsmasq_state
-echo "SWITCH OFF" >> /data/local/dnsmasq_state
+echo "# PROJECT DIRECT INJECT" >> /data/local/dnsmasq_state
+echo "" >> /data/local/dnsmasq_state
+echo "OFF" >> /data/local/dnsmasq_state
 busybox rm -f /data/direct_inject/S06_dnsmasq.log
-busybox rm -f /data/dnsmasq.pid
 busybox rm -f /data/local/dnsmasq.pid 
 busybox rm -f /data/local/dnsmasq-host
 busybox rm -f /data/local/dnsmasq.leases
@@ -53,4 +55,3 @@ sleep 2
 sleep 2
 reboot
 busybox reboot
-
