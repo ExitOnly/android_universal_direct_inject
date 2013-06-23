@@ -1,0 +1,23 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+DIRECT=/data/direct_inject/S08_rngd.log;
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Setting light rngd binary values..." | tee -a $DIRECT;
+
+rngd -s 512 -t 1 -W 50
+echo "-15" >> /proc/$(pgrep rngd)/oom_adj
+renice 10 `pidof rngd`
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Light rngd binary values have been set successfully!!!" | tee -a $DIRECT;

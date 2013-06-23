@@ -1,0 +1,28 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+DIRECT=/data/direct_inject/S00_remount.log
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "Automatic remount of /system started at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $DIRECT;
+
+busybox mount -o rw,remount /system
+
+echo "Automatic /system remount complete at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $DIRECT;
+
+echo "Automatic remount of rootfs / started at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $DIRECT;
+
+busybox mount -o rw,remount rootfs /
+
+echo "Automatic rootfs / remount complete at $( date +"%m-%d-%Y %H:%M:%S" )" | tee -a $DIRECT;
+

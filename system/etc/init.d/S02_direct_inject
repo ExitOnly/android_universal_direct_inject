@@ -1,0 +1,126 @@
+#!/system/bin/sh
+#
+#
+#=======================================
+#=======================================
+# PROJECT DIRECT INJECT BY EXIT_ONLY ===
+#=======================================
+#=======================================
+#
+#
+
+DIRECT=/data/direct_inject/S02_direct_inject.log
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S02_direct_inject scripts has started..." | tee -a $DIRECT;
+
+for j in $(busybox mount | busybox grep ext4 | busybox cut -d " " -f3)
+do
+busybox mount -o remount,rw,nobh,noauto_da_alloc,barrier=0,commit=10,inode_readahead_blks=8 $j
+done &
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Remount Ext4 script successfully executed" | tee -a $DIRECT;
+
+busybox mount -t debugfs none /sys/kernel/debug
+KERNEL=/sys/kernel/debug/sched_features
+echo "NO_ARCH_POWER" >> $KERNEL
+echo "NO_GENTLE_FAIR_SLEEPERS" >> $KERNEL
+echo "NO_LB_BIAS" >> $KERNEL
+echo "NO_NEW_FAIR_SLEEPERS" >> $KERNEL
+echo "NO_NEXT_BUDDY" >> $KERNEL
+echo "NO_NORMALIZED_SLEEPERS" >> $KERNEL
+echo "NO_START_DEBIT" >> $KERNEL
+echo "NO_AFFINE_WAKEUPS" >> $KERNEL 
+echo "NO_LAST_BUDDY" >> $KERNEL 
+echo "NO_CACHE_HOT_BUDDY" >> $KERNEL 
+echo "NO_HRTICK" >> $KERNEL 
+echo "NO_DOUBLE_TICK" >> $KERNEL  
+echo "NO_OWNER_SPIN" >> $KERNEL 
+echo "NO_NONTASK_POWER" >> $KERNEL 
+echo "NO_TTWU_QUEUE" >> $KERNEL 
+echo "NO_FORCE_SD_OVERLAP" $KERNEL 
+echo "NO_RT_RUNTIME_SHARE" >> $KERNEL 
+echo "NO_LB_MIN" >> $KERNEL
+busybox umount /sys/kernel/debug
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Kernel sleepers successfully disabled..." | tee -a $DIRECT;
+
+busybox rm -f /dev/log/main
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Logcats  successfully disabled..." | tee -a $DIRECT;
+
+READAHEAD="3072"
+
+if [ -e /sys/devices/virtual/bdi/0:18/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/0:18/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/179:0/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/179:0/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:0/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:0/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:1/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:1/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:2/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:2/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:3/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:3/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:4/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:4/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:5/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:5/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:6/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:6/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/7:7/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/7:7/read_ahead_kb
+fi
+
+if [ -e /sys/devices/virtual/bdi/default/read_ahead_kb ]; then
+echo $READAHEAD >> /sys/devices/virtual/bdi/default/read_ahead_kb
+fi
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Readahead successfully set to $READAHEAD" | tee -a $DIRECT;
+
+if [ -e /sys/devices/virtual/sec/sec_touchscreen/tsp_threshold ]; then
+echo "40" >> /sys/devices/virtual/sec/sec_touchscreen/tsp_threshold
+fi
+
+if [ -e /sys/devices/virtual/sec/sec_touchkey/touchkey_brightness ]; then
+echo "2700" >> /sys/devices/virtual/sec/sec_touchkey/touchkey_brightness
+fi
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Touchscreen script successfully executed" | tee -a $DIRECT;
+
+echo "60" >> /sys/devices/platform/kgsl/msm_kgsl/kgsl-3d0/io_fraction
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) i/o script successfully executed" | tee -a $DIRECT;
+
+busybox rm -f /data/local/*.apk
+busybox rm -f /data/local/tmp/*.apk
+busybox rm -f /data/*.log
+busybox rm -f /data/log/*.log
+busybox rm -f /data/backup/pending/*.tmp
+busybox rm -rf /data/tombstones
+busybox rm -rf /sdcard/LOST.DIR
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Most logs successfully deleted from /data..." | tee -a $DIRECT;
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S02_direct_inject script successfully executed" | tee -a $DIRECT;

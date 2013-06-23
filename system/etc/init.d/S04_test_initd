@@ -1,0 +1,17 @@
+#!/system/bin/sh
+#
+#
+#=======================================
+#=======================================
+# PROJECT DIRECT INJECT BY EXIT_ONLY ===
+#=======================================
+#=======================================
+#
+#
+
+DIRECT=/data/direct_inject/S04_test_initd.log
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "init.d successfully ran at: $( date +"%m-%d-%Y %H:%M:%S" )" > $DIRECT;

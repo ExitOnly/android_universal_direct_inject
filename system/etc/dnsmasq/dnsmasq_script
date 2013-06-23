@@ -1,0 +1,22 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+DIRECT=/data/direct_inject/S06_dnsmasq.log
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S06_dnsmasq script has started..." | tee -a $DIRECT;
+
+dnsmasq -C /data/local/dnsmasq-local.conf -c 65535 -x /data/local/dnsmasq.pid &
+
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S06_dnsmasq script has been executed successfully!!!" | tee -a $DIRECT;

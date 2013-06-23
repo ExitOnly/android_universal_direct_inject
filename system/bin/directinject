@@ -1,0 +1,212 @@
+#!/system/bin/sh
+#
+#
+#=======================================
+#=======================================
+# PROJECT DIRECT INJECT BY EXIT_ONLY ===
+#=======================================
+#=======================================
+#
+#
+
+clear
+echo ""
+echo "==========================================="
+echo "==    PROJECT DIRECT INJECTION SCRIPT    =="
+echo "==         EXIT_ONLY @ XDA 2013          =="
+echo "==========================================="
+sleep 1
+
+echo ""
+echo "Let's check on some stuff...standby"
+sleep 1
+
+   echo ""
+   echo "Checking Rambooster binary..."
+sleep 1
+if [ -e /system/bin/rambooster ]; then
+   echo ""
+   echo "Rambooster binary is installed..."
+sleep 1
+else
+   echo ""
+   echo "Rambooster binary did NOT install...please reinstall and try again!!!"
+sleep 1
+fi
+
+   echo ""
+   echo "Checking for init.d folder..."
+sleep 1
+if [ -e /system/etc/init.d ]; then
+   echo ""
+   echo "init.d folder is installed..."
+sleep 1
+else
+   echo ""
+   echo "init.d folder is NOT installed...please reinstall then try again!!!"
+sleep 1
+fi
+
+   echo ""
+   echo "Checking for zipalign script..."
+sleep 1
+if [ -e /system/etc/init.d/S01_zipalign_apks ]; then
+   echo ""
+   echo "Zipalign script is installed..."
+sleep 1
+else
+   echo ""
+   echo "Zipalign script is NOT installed...please reinstall then try again!!!"
+sleep 1
+fi
+
+   echo ""
+   echo "Checking for direct inject engine script..."
+sleep 1
+if [ -e /system/etc/init.d/S02_direct_inject ]; then
+   echo ""
+   echo "Direct inject engine script is installed..."
+sleep 1
+else
+   echo ""
+   echo "Direct Inject engine script is NOT installed...please reinstall then try again!!!"
+sleep 1
+fi
+
+   echo ""
+   echo "Checking for WiFi sleep script..."
+sleep 1
+if [ -e /system/etc/init.d/S03_wifi_sleep ]; then
+   echo ""
+   echo "WiFi Sleep script is installed..."
+sleep 1
+else
+   echo ""
+   echo "WiFi Sleep script is NOT installed...please reinstall then try again!!!"
+sleep 1
+fi
+
+   echo ""
+   echo "Checking for test init.d script..."
+sleep 1
+if [ -e /system/etc/init.d/S04_test_initd ]; then
+   echo ""
+   echo "Test init.d script is installed..."
+sleep 1
+else
+   echo ""
+   echo "Test init.d script is NOT installed...please reinstall then try again!!!"
+sleep 1
+fi
+
+   echo ""
+   echo "Checking for sysctl init.d script..."
+sleep 1
+if [ -e /system/etc/init.d/S05_sysctl ]; then
+   echo ""
+   echo "Sysctl init.d script is installed..."
+sleep 1
+else
+   echo ""
+   echo "Sysctl init.d script is NOT installed!!!"
+sleep 1
+   echo ""
+   echo "If you did NOT opt in to this then ignore!!!"
+sleep 2
+fi
+
+   echo ""
+   echo "Checking for sysctl.conf..."
+sleep 1
+if [ -e /system/etc/sysctl.conf ]; then
+   echo ""
+   echo "Sysctl.conf is installed..."
+sleep 1
+else
+   echo ""
+   echo "Sysctl.conf is NOT installed!!! "
+sleep 1
+   echo ""
+   echo "If you did NOT opt in to this then ignore!!!"
+sleep 2
+fi 
+
+   echo ""
+   echo "Checking for zipalign binary..."
+sleep 1
+if [ -e /system/xbin/zipalign ]; then
+   echo ""
+   echo "Zipalign binary is installed..."
+sleep 1
+else
+   echo ""
+   echo "Zipalign binary did NOT install...please reinstall then try again!!! "
+sleep 1
+fi 
+
+   echo ""
+   echo "Checking for Worldwide GPS tweak..."
+sleep 1
+if [ -e /system/etc/SuplRootCert ] && [ -e /system/etc/gps ]; then 
+if [ -e /system/etc/sirfgps.conf ] && [ -e /system/etc/DIRECT ]; then
+if [ -e /system/etc/gps.conf ]; then
+   echo ""
+   echo "Worldwide GPS tweak did install..."
+sleep 1
+else
+   echo ""
+   echo "Worldwide GPS tweak did NOT install!!!"
+sleep 1
+fi
+fi
+fi
+
+   echo ""
+   echo "Next up is OPTIONAL switch enabled tweaks..."
+sleep 3
+   echo ""
+   echo "If you DID NOT ENABLE the switches then it obviously is NOT ENABLED..."
+sleep 3
+
+   echo ""
+   echo "Checking to see if Entropy is ENABLED on your device..."
+sleep 1
+if [ -e /data/rngd.pid ] && [ -e /system/etc/init.d/S08_rngd ]; then
+if [ -e /system/xbin/rngd ] && [ -e /system/xbin/entro ]; then
+   echo ""
+   echo "Entropy is ENABLED on your device!!!"
+sleep 1
+else
+   echo ""
+   echo "Entropy is DISABLED on your device!!!"
+sleep 1
+   echo ""
+   echo "Please ENABLE it by typing 'su' then 'rngd_on' in terminal emulator!!!"
+sleep 2
+fi
+fi
+
+   echo ""
+   echo "Checking to see if dnsmasq caching is ENABLED..."
+sleep 1
+if [ -e /system/etc/resolv.conf ] && [ -e /system/bin/dnsmasq ]; then
+if [ -e /system/etc/init.d/S06_dnsmasq ] && [ -e /data/local/dnsmasq-host ]; then
+if [ -e /data/local/dnsmasq.pid ] && [ -e /data/local/dnsmasq-local.conf ]; then
+   echo ""
+   echo "Dnsmasq caching is ENABLED on your device!!!"
+sleep 1
+else
+   echo ""
+   echo "Dnsmasq caching is DISABLED on your device!!!"
+sleep 1
+   echo ""
+   echo "Please ENABLE it by typing 'su' then 'dnsmasq_on' in terminal emulator!!!"
+sleep 1
+fi 
+fi
+fi
+
+   echo ""
+   echo "Exit_Only @ XDA 2013"
+sleep 1
+exit 0

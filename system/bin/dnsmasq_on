@@ -1,0 +1,61 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+   echo ""
+   echo "==========================================="
+   echo "==        DNSMASQ BINARY SWITCH          =="
+   echo "==                                       =="
+   echo "==       Exit_Only  @  XDA  2013         =="
+   echo "==========================================="
+sleep 1
+   echo ""
+   echo "Turning dnsmasq binary switch on..."
+sleep 1
+busybox rm -f /data/local/dnsmasq_state
+busybox touch /data/local/dnsmasq_state
+echo "SWITCH ON" >> /data/local/dnsmasq_state
+busybox chmod -Rf 777 /system/etc/dnsmasq
+busybox chown -f 0.2000 /system/etc/dnsmasq
+busybox chmod -f 777 /system/etc/dnsmasq/*
+busybox chown -f 0.0 /system/etc/dnsmasq/*
+cp /system/etc/dnsmasq/adblock_hosts /system/etc/hosts
+busybox chmod -f 777 /system/etc/hosts
+busybox chown -f 0.0 /system/etc/hosts
+cp /system/etc/dnsmasq/resolv.conf /system/etc
+busybox chmod -f 777 /system/etc/resolv.conf
+busybox chown -f 0.0 /system/etc/resolv.conf
+cp /system/etc/dnsmasq/dnsmasq-local.conf /data/local
+busybox chmod -f 777 /data/local/dnsmasq-local.conf
+busybox chown -f 1000.1000 /data/local/dnsmasq-local.conf
+cp /system/etc/dnsmasq/dnsmasq-host /data/local
+busybox chmod -f 777 /data/local/dnsmasq-host
+busybox chown -f 1000.1000 /data/local/dnsmasq-host
+cp /system/etc/dnsmasq/dnsmasq_script /system/etc/init.d/S06_dnsmasq
+busybox chmod -f 777 /system/etc/init.d/S06_dnsmasq
+busybox chown -f 0.0 /system/etc/init.d/S06_dnsmasq
+   echo ""
+   echo "Dnsmasq binary is now activated..."
+sleep 1
+   echo ""
+   echo "This switch WILL survive a full reboot..."
+sleep 1
+   echo ""
+   echo "You MUST turn the switch off in order to de-activate the dnsmasq binary..."
+sleep 1
+   echo ""
+   echo "Type 'su' then type 'dnsmasq_off' to de-activate dnsmasq binary..."
+sleep 2
+   echo ""
+   echo "Your device will reboot shortly..."
+sleep 2
+reboot
+busybox reboot
+

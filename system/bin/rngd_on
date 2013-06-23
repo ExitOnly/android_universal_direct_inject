@@ -1,0 +1,83 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+   echo ""
+   echo "==========================================="
+   echo "==       ENTROPY GENERATOR SWITCH        =="
+   echo "==                                       =="
+   echo "==         Exit_Only @ XDA 2013          =="
+   echo "==========================================="
+sleep 1
+   echo ""
+   echo "Turning Entropy generator switch on..."
+sleep 1
+busybox mount -o rw,remount /system
+busybox touch /data/direct_inject/S08_rngd.log
+   echo ""
+   echo "Checking for qrngd binary [Qualcomm devices ONLY] ..."
+sleep 1
+if [ -e /system/bin/qrngd ]; then
+   echo ""
+   echo "Backing up & removing qrngd binary [ Qualcomm devices ONLY ] ..."
+sleep 1
+cp /system/bin/qrngd /system/etc/entropy/grngd_bin
+busybox rm -f /system/bin/qrngd
+fi
+if [ -e /system/xbin/qrngd ]; then
+   echo ""
+   echo "Backing up & removing qrngd binary [ Qualcomm devices ONLY ] ..."
+sleep 1
+cp /system/xbin/qrngd /system/etc/entropy/qrngd_xbin
+busybox rm -f /system/xbin/qrngd
+fi
+   echo ""
+   echo "Do you want 'Light' or 'Moderate' Entropy Generation?"
+sleep 1
+   echo -n "[ Light = 1 | Moderate = 2 ]: "
+read option2
+if [ $option2 -ne 1 ]; then
+busybox rm -f /data/local/rngd_state
+busybox touch /data/local/rngd_state
+echo "MODERATE SWITCH ON" >> /data/local/rngd_state
+cp /system/etc/entropy/rngd_moderate /system/etc/init.d/S08_rngd
+busybox chmod -f 777 /system/etc/init.d/S08_rngd
+busybox chown -f 0.0 /system/etc/init.d/S08_rngd
+else
+busybox rm -f /data/local/rngd_state
+busybox touch /data/local/rngd_state
+echo "LIGHT SWITCH ON" >> /data/local/rngd_state
+cp /system/etc/entropy/rngd_light /system/etc/init.d/S08_rngd
+busybox chmod -f 777 /system/etc/init.d/S08_rngd
+busybox chown -f 0.0 /system/etc/init.d/S08_rngd
+fi
+cp /system/etc/entropy/rngd /system/xbin
+busybox chmod -f 777 /system/xbin/rngd
+busybox chown -f 0.0 /system/xbin/rngd
+cp /system/etc/entropy/entro /system/xbin
+busybox chmod -f 777 /system/xbin/entro
+busybox chown -f 0.0 /system/xbin/entro
+   echo ""
+   echo "Rngd binary is now activated..."
+sleep 1
+   echo ""
+   echo "This switch WILL survive a full reboot..."
+sleep 1
+   echo ""
+   echo "You MUST turn the switch off in order to de-activate the rngd binary..."
+sleep 1
+   echo ""
+   echo "Type 'su' then type 'rngd_off' to de-activate rngd binary..."
+sleep 2
+   echo ""
+   echo "Your device will reboot shortly..."
+sleep 2
+reboot
+busybox reboot

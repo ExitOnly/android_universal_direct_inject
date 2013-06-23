@@ -1,0 +1,56 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+   echo ""
+   echo "==========================================="
+   echo "==        DNSMASQ BINARY SWITCH          =="
+   echo "==                                       =="
+   echo "==       Exit_Only  @  XDA  2013         =="
+   echo "==========================================="
+sleep 1
+   echo ""
+   echo "Turning dnsmasq binary switch off..."
+sleep 1
+busybox rm -f /data/local/dnsmasq_state
+busybox touch /data/local/dnsmasq_state
+echo "SWITCH OFF" >> /data/local/dnsmasq_state
+busybox rm -f /data/direct_inject/S06_dnsmasq.log
+busybox rm -f /data/dnsmasq.pid
+busybox rm -f /data/local/dnsmasq.pid 
+busybox rm -f /data/local/dnsmasq-host
+busybox rm -f /data/local/dnsmasq.leases
+busybox rm -f /data/local/dnsmasq-local.conf
+busybox rm -f /system/etc/resolv.conf
+busybox rm -f /system/etc/init.d/S06_dnsmasq
+cp /system/etc/dnsmasq/stock_hosts /system/etc/hosts
+busybox chmod -f 777 /system/etc/hosts
+busybox chown -f 0.0 /system/etc/hosts
+busybox chmod -Rf 000 /system/etc/dnsmasq
+busybox chown -f 0.0 /system/etc/dnsmasq
+busybox chmod -f 000 /system/etc/dnsmasq/*
+busybox chown -f 0.0 /system/etc/dnsmasq/*
+   echo ""
+   echo "Dnsmasq binary is now de-activated..."
+sleep 1
+   echo ""
+   echo "This switch WILL survive a full reboot..."
+sleep 1
+   echo ""
+   echo "You MUST turn the switch on in order to re-activate the dnsmasq binary..."
+sleep 1
+   echo ""
+   echo "Type 'su' then type 'dnsmasq_on' to re-activate dnsmasq binary..."
+sleep 2
+   echo ""
+   echo "Your device will reboot shortly..."
+sleep 2
+reboot
+busybox reboot
+

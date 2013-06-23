@@ -1,0 +1,46 @@
+#!/system/bin/sh
+#
+#
+#=======================================
+#=======================================
+# PROJECT DIRECT INJECT BY EXIT_ONLY ===
+#=======================================
+#=======================================
+#
+#
+
+DIRECT=/data/direct_inject/S03_wifi_sleep.log;
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S03_wifi_sleep script has started..." | tee -a $DIRECT;
+
+sqlite3=/system/xbin/sqlite3;
+wifi_wait_time=20000;
+return_value=$($sqlite /data/data/com.android.providers.settings/databases/settings.db "select value from secure where name='wifi_idle_ms'");
+
+echo "Checking for $sqlite3..." | tee -a $DIRECT
+
+if [ -e $sqlite3 ]; then
+
+echo "wifi_idle_ms value was $return_value" | tee -a $DIRECT;
+
+if [ $return_value="" ]; then
+$sqlite3 /data/data/com.android.providers.settings/databases/settings.db "insert into secure (name, value) values ('wifi_idle_ms', $nos_wifi_wait_time)"
+fi
+
+$sqlite3 /data/data/com.android.providers.settings/databases/settings.db "update secure set value=$wifi_wait_time where name='wifi_idle_ms'"
+return_value=$($sqlite3 /data/data/com.android.providers.settings/databases/settings.db "select value from secure where name='wifi_idle_ms'");
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Current wifi_idle_ms value is $return_value" | tee -a $DIRECT;
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S03_wifi_sleep tweak ended..." | tee -a $DIRECT;
+
+else
+
+echo "$sqlite3 is NOT present..." | tee -a $DIRECT
+echo "" | tee -a $DIRECT
+echo "Please install sqlite3 binary then try again!!!" | tee -a $DIRECT
+
+fi

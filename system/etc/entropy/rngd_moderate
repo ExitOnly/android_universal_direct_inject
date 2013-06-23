@@ -1,0 +1,23 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+DIRECT=/data/direct_inject/S08_rngd.log;
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Setting Moderate Entropy rngd binary generator values..." | tee -a $DIRECT;
+
+rngd -s 768 -t 0.5 -W 75
+echo "-15" > /proc/$(pgrep rngd)/oom_adj
+renice 10 `pidof rngd`
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Moderate Entropy rngd binary values have been set successfully!!!" | tee -a $DIRECT;

@@ -1,0 +1,21 @@
+#!/system/bin/sh
+#
+#
+#=======================================
+#=======================================
+# PROJECT DIRECT INJECT BY EXIT_ONLY ===
+#=======================================
+#=======================================
+#
+#
+
+DIRECT=/data/direct_inject/S05_sysctl.log;
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S05_sysctl script has started..." | tee -a $DIRECT;
+
+sysctl -p /system/etc/sysctl.conf
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) S05_sysctl tweak ended!!!" | tee -a $DIRECT;

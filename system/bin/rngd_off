@@ -1,0 +1,68 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+   echo ""
+   echo "==========================================="
+   echo "==       ENTROPY GENERATOR SWITCH        =="
+   echo "==                                       =="
+   echo "==         Exit_Only @ XDA 2013          =="
+   echo "==========================================="
+sleep 1
+   echo ""
+   echo "Turning Entropy generator switch off..."
+sleep 1
+busybox mount -o rw,remount /system
+busybox rm -f /data/direct_inject/S08_rngd.log
+   echo ""
+   echo "Checking for qrngd binary [ Qualcomm devices ONLY ] ..."
+sleep 1
+if [ -e /system/etc/entropy/qrngd_bin ]; then
+   echo ""
+   echo "Restoring qrngd binary [ Qualcomm devices ONLY ] ..."
+sleep 1
+cp /system/etc/entropy/qrngd_bin /system/bin/qrngd
+busybox rm -f /system/etc/entropy/qrngd_bin
+busybox chmod -f 777 /system/bin/qrngd
+busybox chown -f 0.0 /system/bin/qrngd
+fi
+if [ -e /system/etc/entropy/qrngd_xbin ]; then
+   echo ""
+   echo "Restoring qrngd binary [ Qualcomm devices ONLY ] ..."
+sleep 1
+cp /system/etc/entropy/qrngd_xbin /system/xbin/qrngd
+busybox rm -f /system/etc/entropy/qrngd_xbin
+busybox chmod -f 777 /system/xbin/qrngd
+busybox chown -f 0.0 /system/xbin/qrngd
+fi
+busybox rm -f /data/local/rngd_state
+busybox touch /data/local/rngd_state
+echo "SWITCH OFF" >> /data/local/rngd_state
+busybox rm -f /data/rngd.pid
+busybox rm -f /system/etc/init.d/S08_rngd
+busybox rm -f /system/xbin/entro
+busybox rm -f /system/xbin/rngd
+   echo ""
+   echo "Rngd binary is now de-activated..."
+sleep 1
+   echo ""
+   echo "This switch WILL survive a full reboot..."
+sleep 1
+   echo ""
+   echo "You MUST turn the switch on in order to de-activate the rngd binary..."
+sleep 1
+   echo ""
+   echo "Type 'su' then type 'rngd_on' to re-activate rngd binary..."
+sleep 2
+   echo ""
+   echo "Your device will reboot shortly..."
+sleep 2
+reboot
+busybox reboot

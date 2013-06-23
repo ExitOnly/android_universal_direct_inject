@@ -1,0 +1,29 @@
+#!/system/bin/sh
+#
+#
+#=======================================
+#=======================================
+# PROJECT DIRECT INJECT BY EXIT_ONLY ===
+#=======================================
+#=======================================
+#
+#
+
+clear
+   echo "";
+   echo "========================================";
+   echo "=       DIRECT INJECT RAM BOOSTER      =";
+   echo "=         Exit_Only @ XDA 2013         =";
+   echo "========================================";
+sleep 1
+   echo ""
+   echo "Do you want 'Moderate' or 'Aggressive' RAM boost?"
+sleep 1
+   echo ""
+   echo -n "Please select an option: [ Aggressive = 1 | Moderate = 2 ]: "
+read option2
+if [ $option2 -ne 1 ]; then
+sh ./system/etc/rambooster/moderate.sh
+else
+sh ./system/etc/rambooster/aggressive.sh
+fi

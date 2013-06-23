@@ -1,0 +1,65 @@
+#!/system/bin/sh
+#
+#
+#==========================================
+#==========================================
+# PROJECT DIRECT INJECTION BY EXIT_ONLY ===
+#==========================================
+#==========================================
+#
+#
+
+DIRECT=/data/direct_inject/S07_sqlite.log
+INJECT=/system/xbin/sqlite3
+
+busybox rm -f $DIRECT
+busybox touch $DIRECT
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Sqlite script successfully started..." | tee -a $DIRECT;
+
+echo "Checking for $INJECT..." | tee -a $DIRECT
+
+if [ -e $INJECT ]; then
+
+V='VACUUM;';
+R='REINDEX;';
+
+echo "Vacuuming and Reindexing *.db files now..." | tee -a $DIRECT
+
+for i in \
+`busybox find /data -iname "*.db"`; 
+do \
+	 $INJECT $i $V
+	 $INJECT $i $R
+done;
+
+for i in \
+`busybox find /sdcard -iname "*.db"`; 
+do \
+	 $INJECT $i $V
+	 $INJECT $i $R
+done;
+
+for i in \
+`busybox find /dbdata -iname "*.db"`; 
+do \
+		$INJECT $i $V
+		$INJECT $i $R
+done;
+
+for i in \
+`busybox find /datadata -iname "*.db"`; 
+do \
+		$INJECT $i $V
+		$INJECT $i $R
+done;
+
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) Vacuuming and Reindexing is complete!!!" | tee -a $DIRECT;
+
+else
+
+echo "$INJECT is NOT present..." | tee -a $DIRECT
+echo "" | tee -a $DIRECT
+echo "Please install sqlite3 binary then try again!!!" | tee -a $DIRECT
+
+fi
